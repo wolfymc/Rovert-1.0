@@ -63,6 +63,7 @@ async def help(ctx):
 	embed.add_field(name='Fun Commands', value='?ping <shows and returns pong> ?say <message>', inline=True)
 	embed.add_field(name='Moderation Commands', value='?kick <kicks a user> ?ban <bans a user> ?clear <number of messages> ?mute <mutes user> ?unmute <unmutes user>', inline=True)
 	embed.add_field(name='Info Based', value='?serverinfo <shows info on the server> ?userinfo <shows info on a server>', inline=True)
+	embed.add_field(name='Need help?', value='?invite <gives link to invite the bot> ?supserver <support server>', inline=True)
 	
 	await client.send_message(author, embed=embed)
 	await client.say('I have sent the info in your PM')
