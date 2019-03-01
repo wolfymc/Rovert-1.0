@@ -160,5 +160,13 @@ async def userinfo(ctx, member: discord.Member = None):
     embed.add_field(name='Bot?', value=member.bot)
 
     await ctx.send(embed=embed)
+	
+@client.command(pass_context = True)
+async def invite(ctx):
+	await.client.say('https://discordapp.com/api/oauth2/authorize?client_id=549779341333102593&permissions=8&scope=bot')
+	
+@client.command(pass_context = True)
+async def supserver(ctx):
+	await.client.say('https://discord.gg/pT5XRdh')
 
 client.run(TOKEN)
