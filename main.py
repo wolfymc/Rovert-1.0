@@ -65,7 +65,7 @@ async def help(ctx):
 	embed.add_field(name='Info Based', value='?serverinfo <shows info on the server> ?userinfo <shows info on a server>', inline=True)
 	
 	await client.send_message(author, embed=embed)
-	await client.say('Check your dms.')
+	await client.say('I have sent the info in your PM')
 	
 @client.command(pass_context=True)
 async def kick(ctx, user: discord.Member = None):
