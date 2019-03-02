@@ -32,7 +32,7 @@ async def help(ctx):
     )
 
     embed.set_author(name='Byte Bot Info - Prefix [-]')
-    embed.add_field(name='Moderation', value='-kick -ban -mute -unmute -purge', inline=False)
+    embed.add_field(name='Moderation', value='-kick -ban -mute -purge -warn', inline=False)
     embed.add_field(name='Fun', value='-ping -meme(Disabled)', inline=False)
     embed.add_field(name='Info', value='-userinfo -serverinfo', inline=False)
     embed.add_field(name='Role', value='-role -rank', inline=False)
@@ -41,16 +41,6 @@ async def help(ctx):
 
     await client.send_message(author, embed=embed)
     await client.say('Messages sent to your Dms! :thumbsup:')
-
-@client.command(pass_context = True)
-async def kick(ctx, member: discord.User):
-    await client.kick(member)
-    await client.delete_message(ctx.message)
-
-@client.command(pass_context = True)
-async def ban(ctx, member: discord.User):
-    await client.kick(member)
-    await client.delete_message(ctx.message)
 
 @client.command(pass_context = True)
 async def purge(ctx, amount=10):
@@ -62,6 +52,24 @@ async def purge(ctx, amount=10):
         msg_amount += 1
     await client.delete_messages(messages)
     await client.say('{} messages deleted', format(msg_amount))
+    
+@client.command(pass_context=True)
+async def mute(ctx,target:discord.Member):
+    role=discord.utils.get(ctx.message.server.roles,name='Muted')
+   
+    await client.add_roles(target,role)
+   
+@client.command(pass_context=True)
+async def warn(ctx,target:discord.Member):
+    await client.send_message(target,'You have been warned!')
+   
+@client.command(pass_context=True)
+async def kick(ctx,target:discord.Member):
+    await client.kick(target)
+   
+@client.command(pass_context=True)
+async def ban(ctx,target:discord.Member):
+    await client.ban(target)    
 
 client.run(TOKEN)
     
