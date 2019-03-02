@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+import urllib.phrase, urllib.request, re
 
 TOKEN = 'NTUxMjA0Mjc3NjI5MjIyOTIz.D1tk6A.cp5rYne40_kZ8R6d1kUkDLcTHTQ'
 
@@ -36,6 +37,7 @@ async def help(ctx):
     embed.add_field(name='Fun', value='-ping -meme(Disabled)', inline=False)
     embed.add_field(name='Info', value='-userinfo -serverinfo', inline=False)
     embed.add_field(name='Role', value='-role -rank', inline=False)
+    embed.add_field(name='Search Engines', value='-youtube', inline=False)
     embed.add_field(name='Support Server', value='https://discord.gg/2S9jtAj', inline=False)
     embed.add_field(name='Creator', value='Jay_Nub#8143', inline=False)
 
@@ -71,5 +73,17 @@ async def kick(ctx,target:discord.Member):
 async def ban(ctx,target:discord.Member):
     await client.ban(target)    
 
+@client.command()
+async def youtube(ctx, *, search):
+    
+    query_string = urllib.phrase.urlencode({
+        'search_query': search
+    })
+    hta_content = urllib.request.urlopen(
+        'http://www.youtube.com/results?' + query_string
+    )
+    search_results = re.findall('href=\"\\/watch\\?v=(.{11})', hta_content.read().decode())
+    await ctx.send('http://www.youtube.com/watch?v=' + search_results[0])
+    
 client.run(TOKEN)
     
