@@ -1,5 +1,4 @@
 import discord
-import asyncio
 from discord.ext import commands
 
 TOKEN = 'NTUxMjA0Mjc3NjI5MjIyOTIz.D1tk6A.cp5rYne40_kZ8R6d1kUkDLcTHTQ'
@@ -9,8 +8,20 @@ client.remove_command('help')
 
 @client.event
 async def on_ready():
-    await client.change_presence(game=discord.Game(name='With Commands Prefix = -'))
+    await client.change_presence(game=discord.Game(name='With Commands Prefix [-]'))
     print('Bots Online, Ready to help')
+    
+@client.event
+async def on_member_join(member):
+    if member.server.id == '551116302237040661':
+        channel = client.get_channel('551116302891221023')
+        await client.send_message(channel, f'Welcome! {member.mention} to **Byte Development**')
+        
+@client.event
+async def on_member_remove(member):
+    if member.server.id == '551116302237040661':
+        channel = client.get_channel('551116302891221023')
+        await client.send_message(channel, f'Bye! {member.name} :wave:')
 
 @client.command(pass_context=True)
 async def help(ctx):
@@ -51,7 +62,6 @@ async def purge(ctx, amount=10):
         msg_amount += 1
     await client.delete_messages(messages)
     await client.say('{} messages deleted', format(msg_amount))
-
 
 client.run(TOKEN)
     
