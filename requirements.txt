@@ -1,2 +1,2 @@
 discord
-asyncio
+urllib
