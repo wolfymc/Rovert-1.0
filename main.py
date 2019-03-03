@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+from google import search
 
 TOKEN = 'NTUxMjA0Mjc3NjI5MjIyOTIz.D1tk6A.cp5rYne40_kZ8R6d1kUkDLcTHTQ'
 
@@ -36,7 +37,7 @@ async def help(ctx):
     embed.add_field(name='Fun', value='-ping -meme(Disabled)', inline=False)
     embed.add_field(name='Info', value='-userinfo -serverinfo', inline=False)
     embed.add_field(name='Role', value='-role -rank', inline=False)
-    embed.add_field(name='Search Engines', value='-youtube', inline=False)
+    embed.add_field(name='Search Engines', value='-Google', inline=False)
     embed.add_field(name='Support Server', value='https://discord.gg/2S9jtAj', inline=False)
     embed.add_field(name='Creator', value='Jay_Nub#8143', inline=False)
 
@@ -70,7 +71,18 @@ async def kick(ctx,target:discord.Member):
    
 @client.command(pass_context=True)
 async def ban(ctx,target:discord.Member):
-    await client.ban(target)    
-
+    await client.ban(target)  
+    
+@client.command()
+async def google(ctx, *, anything):
+    """: Search Google for something"""
+    async with ctx.typing():
+        # This makes your bot to type, it displays like bot its typing.... yeah its cool
+        for url in search(
+                anything, tld='com', lang='es', num=1, start=1, stop=2):
+            # This searches for url of {anything}
+            await ctx.send(url)  # This sends the url
+            break  # you don't wanna send it again so it breaks here
+    
 client.run(TOKEN)
     
