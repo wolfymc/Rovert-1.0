@@ -1,7 +1,6 @@
 import discord
 import datetime
 from discord.ext import commands
-from google import search
 
 TOKEN = 'NTUxMjA0Mjc3NjI5MjIyOTIz.D1tk6A.cp5rYne40_kZ8R6d1kUkDLcTHTQ'
 
@@ -69,12 +68,8 @@ async def warn(ctx,target:discord.Member):
 @client.command(pass_context=True)
 async def kick(ctx, user: discord.Member, args=None):
 
-    # First we have to run our finction to update the case number
-
     caseno()
-
-    # Then we start getting the actual data and run that smoothly into our embed, we use the code below as a simple framework
-
+    
     if not args:
         embed = discord.Embed(title='Kick | Case #' + str(case), timestamp=datetime.datetime.utcnow(), color=0xff0000)
         embed.add_field(name='User', value='{}'.format(user.name) + '#{}'.format(user.discriminator) + ' (<@{}>)'.format(user.id))
@@ -90,19 +85,12 @@ async def kick(ctx, user: discord.Member, args=None):
         embed.set_footer(text='{}'.format(user.name) + '#{} was kicked'.format(user.discriminator))
         embed.set_thumbnail(url=user.avatar_url)
 
-    # Then we finally send the embed to the chat and ban the user after the command is issued!
-
-    await client.send_message(discord.Object(id='551889866003054603'), embed=embed) # The value for id must be replaced with the id of your mod-log channel!
-    await client.kick(user)
+    await client.send_message(discord.Object(id='551889866003054603'), embed=embed)
    
 @client.command(pass_context=True)
 async def ban(ctx, user: discord.Member, args=None):
 
-    # First we have to run our finction to update the case number
-
     caseno()
-
-    # Then we start getting the actual data and run that smoothly into our embed, we use the code below as a simple framework
 
     if not args:
         embed = discord.Embed(title='Ban | Case #' + str(case), timestamp=datetime.datetime.utcnow(), color=0xff0000)
@@ -119,21 +107,8 @@ async def ban(ctx, user: discord.Member, args=None):
         embed.set_footer(text='{}'.format(user.name) + '#{} was banned'.format(user.discriminator))
         embed.set_thumbnail(url=user.avatar_url)
 
-    # Then we finally send the embed to the chat and ban the user after the command is issued!
-
-    await client.send_message(discord.Object(id='551889866003054603'), embed=embed) # The value for id must be replaced with the id of your mod-log channel!
+    await client.send_message(discord.Object(id='551889866003054603'), embed=embed)
     await client.ban(user)
-    
-@client.command()
-async def google(ctx, *, anything):
-    """: Search Google for something"""
-    async with ctx.typing():
-        # This makes your bot to type, it displays like bot its typing.... yeah its cool
-        for url in search(
-                anything, tld='com', lang='es', num=1, start=1, stop=2):
-            # This searches for url of {anything}
-            await ctx.send(url)  # This sends the url
-            break  # you don't wanna send it again so it breaks here
     
 client.run(TOKEN)
     
