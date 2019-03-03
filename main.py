@@ -1,4 +1,5 @@
 import discord
+import datetime
 from discord.ext import commands
 from google import search
 
@@ -66,12 +67,62 @@ async def warn(ctx,target:discord.Member):
     await client.send_message(target,'You have been warned!')
    
 @client.command(pass_context=True)
-async def kick(ctx,target:discord.Member):
-    await client.kick(target)
+async def kick(ctx, user: discord.Member, args=None):
+
+    # First we have to run our finction to update the case number
+
+    caseno()
+
+    # Then we start getting the actual data and run that smoothly into our embed, we use the code below as a simple framework
+
+    if not args:
+        embed = discord.Embed(title='Kick | Case #' + str(case), timestamp=datetime.datetime.utcnow(), color=0xff0000)
+        embed.add_field(name='User', value='{}'.format(user.name) + '#{}'.format(user.discriminator) + ' (<@{}>)'.format(user.id))
+        embed.add_field(name='Moderator', value='{}'.format(ctx.message.author.name) + '#{}'.format(ctx.message.author.discriminator))
+        embed.add_field(name='Reason', value='None')
+        embed.set_footer(text='{}'.format(user.name) + '#{} was kicked'.format(user.discriminator))
+        embed.set_thumbnail(url=user.avatar_url)
+    else:
+        embed = discord.Embed(title='Kick | Case #' + str(case), timestamp=datetime.datetime.utcnow(), color=0xff0000)
+        embed.add_field(name='User', value='{}'.format(user.name) + '#{}'.format(user.discriminator) + ' (<@{}>)'.format(user.id))
+        embed.add_field(name='Moderator', value='{}'.format(ctx.message.author.name) + '#{}'.format(ctx.message.author.discriminator))
+        embed.add_field(name='Reason', value=' '.join(args).replace('/{}/g', " "))
+        embed.set_footer(text='{}'.format(user.name) + '#{} was kicked'.format(user.discriminator))
+        embed.set_thumbnail(url=user.avatar_url)
+
+    # Then we finally send the embed to the chat and ban the user after the command is issued!
+
+    await client.send_message(discord.Object(id='551889866003054603'), embed=embed) # The value for id must be replaced with the id of your mod-log channel!
+    await client.kick(user)
    
 @client.command(pass_context=True)
-async def ban(ctx,target:discord.Member):
-    await client.ban(target)  
+async def ban(ctx, user: discord.Member, args=None):
+
+    # First we have to run our finction to update the case number
+
+    caseno()
+
+    # Then we start getting the actual data and run that smoothly into our embed, we use the code below as a simple framework
+
+    if not args:
+        embed = discord.Embed(title='Ban | Case #' + str(case), timestamp=datetime.datetime.utcnow(), color=0xff0000)
+        embed.add_field(name='User', value='{}'.format(user.name) + '#{}'.format(user.discriminator) + ' (<@{}>)'.format(user.id))
+        embed.add_field(name='Moderator', value='{}'.format(ctx.message.author.name) + '#{}'.format(ctx.message.author.discriminator))
+        embed.add_field(name='Reason', value='None')
+        embed.set_footer(text='{}'.format(user.name) + '#{} was banned'.format(user.discriminator))
+        embed.set_thumbnail(url=user.avatar_url)
+    else:
+        embed = discord.Embed(title='Ban | Case #' + str(case), timestamp=datetime.datetime.utcnow(), color=0xff0000)
+        embed.add_field(name='User', value='{}'.format(user.name) + '#{}'.format(user.discriminator) + ' (<@{}>)'.format(user.id))
+        embed.add_field(name='Moderator', value='{}'.format(ctx.message.author.name) + '#{}'.format(ctx.message.author.discriminator))
+        embed.add_field(name='Reason', value=' '.join(args).replace('/{}/g', " "))
+        embed.set_footer(text='{}'.format(user.name) + '#{} was banned'.format(user.discriminator))
+        embed.set_thumbnail(url=user.avatar_url)
+
+    # Then we finally send the embed to the chat and ban the user after the command is issued!
+
+    await client.send_message(discord.Object(id='551889866003054603'), embed=embed) # The value for id must be replaced with the id of your mod-log channel!
+    await client.ban(user)
     
 @client.command()
 async def google(ctx, *, anything):
